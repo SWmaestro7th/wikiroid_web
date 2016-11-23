@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>wikiroid.io</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link href="./vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link href="./dist/css/sb-admin-2.css" rel="stylesheet">
+
+    
+    <link href="./vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   	<link rel="stylesheet" href="style.css?">
+   	<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script type="text/javascript" src="js/socket.js"></script>
+    <script type="text/javascript" src="js/control.js"></script>
+</head>
+<body>
+    <div class="col-md-2 menu">
+    	<div style="position: absolute; top: 52%; width: 100%; height: 50vh; background:url('vendor/background.png')">
+
+        </div>
+        <div style="position: absolute; top: 0%; width: 100%; height: 50vh; background:url('vendor/background2.png')">
+
+        </div>
+    	<div  style="position: absolute; width: 100%; top: calc(50% - 178px)">
+	        <div class="titlebar">
+	            <span style="color: #3BA6D8">WIKIROID.IO</span><br>
+	            <span style="color: #EEEEEE; font-size: 0.5em">CHATBOT DEV FOR EVERYONE</span>
+	        </div>
+	        <div class="navbar-default" role="navigation">
+	            <div class="sidebar-nav navbar-collapse">
+	                <ul class="nav" id="side-menu">
+	                    <li>
+	                        <a class="menu-cur"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+	                    </li>
+	                    <li>
+	                        <a data-toggle="modal" data-target="#myModal" class="menu-a"><i class="fa fa-edit fa-fw"></i> New Context</a>
+	                    </li>                    
+	                    <li>
+	                        <a href="contexts.html" class="menu-a"><i class="fa fa-table fa-fw"></i> Contexts</a>
+	                    </li>
+	                    <li>
+	                        <a data-toggle="modal" data-target="#aboutModal" class="menu-a"><i class="fa fa-info-circle fa-fw"></i> About</a>
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
+        </div>
+        
+		<div class="footer">
+			copyright © 2016 wikiroid team<br><small>Yundo Han / Hyeonseok Oh / Geonyeol Yu</small>
+		</div>
+    </div>
+
+	<div class="col-md-7 content">
+		<div class="description">
+			<ul class="timeline">
+				<li class="timeline-inverted">
+                    <div class="timeline-badge info"><i class="fa fa-commenting"></i>
+                    </div>
+                    <div class="timeline-panel">
+                    	<div class="timeline-heading">
+                            <h4 class="timeline-title">새로운 메시지가 도착했습니다.</h4>
+                            <small class="text-muted"><i class="fa fa-comment"></i> via User Input</small>
+                        
+                        </div>
+
+                        <div class="timeline-body">
+	                        <div class="outgoing-full">오늘 강남 날씨는 어때?</div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-badge danger"><i class="fa fa-sitemap"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">메시지의 맥락이 파악되었습니다.</h4>
+                            <p><small class="text-muted"><i class="fa fa-pie-chart"></i> via <b>Context Classifier</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Function</th>
+                                        <th>Possibilty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #555555; font-weight: bold">
+                                        <td>findWeather</td>
+                                        <td>94.12432%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>findKaraoke</td>
+                                        <td>20.31234%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>findLotto</td>
+                                        <td>14.41244%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>findPerson</td>
+                                        <td>5.51235%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>위와 같은 확률에 근거하여, Context Classifier가 적절한 대응 함수를 발견했습니다.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-panel-add">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">매개변수를 특정지으십시오.</h4>
+                            <p><small class="text-muted"><i class="fa fa-check-circle-o"></i> via <b>Context Classifier</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <p><b>findWeather</b> 함수는 <i>Morpheme-based Parameter Extractor</i>를 사용하여 <b>[when, where]</b>를 추출하기를 요구합니다.</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-badge warning"><i class="fa fa-tags"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">매개변수가 특정되었습니다.</h4>
+                            <p><small class="text-muted"><i class="fa fa-pie-chart"></i> via <b>Morpheme-based Parameter Extractor</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Substring</th>
+                                        <th>5W</th>
+                                        <th>Possibilty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>오늘</td>
+                                        <td>when</td>
+                                        <td>96%</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>where</td>
+                                        <td>20%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>강남</td>
+                                        <td>where</td>
+                                        <td>85%</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>when</td>
+                                        <td>16%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>형태소 단위 유사도 분석을 마쳤습니다.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-panel-add">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">함수를 호출합니다.</h4>
+                            <p><small class="text-muted"><i class="fa fa-check-circle-o"></i> via <b>Parameter Extractor</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>5W</th>
+                                        <th>Substring</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>when</td>
+                                        <td>오늘</td>
+                                    </tr>
+                                    <tr>
+                                        <td>where</td>
+                                        <td>강남</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><b>findWeather</b> 함수를 위와 같은 매개변수로 호출합니다.</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-badge success"><i class="fa fa-code"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">함수를 실행했습니다.</h4>
+                            <p><small class="text-muted"><i class="fa fa-check-circle"></i> via <b>findWeather(오늘, 강남)</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+							<div class="incoming-full">오늘 서울특별시 강남구 날씨는 대체로 맑습니다. 비가 올 가능성은 30% 정도입니다.</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <!--<ul class="timeline">
+                <li class="timeline-inverted">
+                    <div class="timeline-badge info"><i class="fa fa-commenting"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">새로운 메시지가 도착했습니다.</h4>
+                            <small class="text-muted"><i class="fa fa-comment"></i> via User Input</small>
+                        
+                        </div>
+
+                        <div class="timeline-body">
+                            <div class="outgoing-full">오늘 강남 날씨는 어때?</div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-badge danger"><i class="fa fa-sitemap"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">메시지의 맥락이 파악되었습니다.</h4>
+                            <p><small class="text-muted"><i class="fa fa-pie-chart"></i> via <b>Context Classifier</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Function</th>
+                                        <th>Possibilty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background-color: #555555; font-weight: bold">
+                                        <td>findWeather</td>
+                                        <td>94.12432%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>findKaraoke</td>
+                                        <td>20.31234%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>findLotto</td>
+                                        <td>14.41244%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>findPerson</td>
+                                        <td>5.51235%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>위와 같은 확률에 근거하여, Context Classifier가 적절한 대응 함수를 발견했습니다.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-panel-add">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">매개변수를 특정지으십시오.</h4>
+                            <p><small class="text-muted"><i class="fa fa-check-circle-o"></i> via <b>Context Classifier</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <p><b>findWeather</b> 함수는 <i>Morpheme-based Parameter Extractor</i>를 사용하여 <b>[when, where]</b>를 추출하기를 요구합니다.</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-badge warning"><i class="fa fa-tags"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">매개변수가 특정되었습니다.</h4>
+                            <p><small class="text-muted"><i class="fa fa-pie-chart"></i> via <b>Morpheme-based Parameter Extractor</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>5W</th>
+                                        <th>Substring</th>
+                                        <th>Possibilty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>when</td>
+                                        <td>오늘</td>
+                                        <td>96%</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>날씨는</td>
+                                        <td>20%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>where</td>
+                                        <td>강남</td>
+                                        <td>85%</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>어때</td>
+                                        <td>16%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>형태소 단위 유사도 분석을 마쳤습니다.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-panel-add">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">함수를 호출합니다.</h4>
+                            <p><small class="text-muted"><i class="fa fa-check-circle-o"></i> via <b>Parameter Extractor</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>5W</th>
+                                        <th>Substring</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>when</td>
+                                        <td>오늘</td>
+                                    </tr>
+                                    <tr>
+                                        <td>where</td>
+                                        <td>강남</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p><b>findWeather</b> 함수를 위와 같은 매개변수로 호출합니다.</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-badge success"><i class="fa fa-code"></i>
+                    </div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">함수를 실행했습니다.</h4>
+                            <p><small class="text-muted"><i class="fa fa-check-circle"></i> via <b>findWeather(오늘, 강남)</b></small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            <div class="incoming-full">오늘 서울특별시 강남구 날씨는 대체로 맑습니다. 비가 올 가능성은 30% 정도입니다.</div>
+                        </div>
+                    </div>
+                </li>
+            </ul> -->
+		</div>
+	</div>
+	
+	<div class="col-md-3 chat-ui">
+        <div class="chat-container">
+            <div class="messages">
+                <div class="messages-inner">
+                    <div class="message-wrapper">
+                        <div class="message outgoing">
+                            <div class="message-inner">오늘 강남 날씨는 어때?</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message-wrapper">
+                        <div class="message incoming">
+                            <div class="message-inner">오늘 서울특별시 강남구 날씨는 대체로 맑습니다. 비가 올 가능성은 30% 정도입니다.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <div class="input-wrapper">
+                    <div class="input-message-wrapper">
+                        <input class="input-message" type="text" id="chat-input" placeholder="Type a message..." autocomplete="off" autofocus>
+                    </div>
+                    <button class="input-button" id="input-button">Send</button>
+                </div>
+            </div>
+        </div>
+	</div>
+    
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="width:auto; height:auto; max-width: 70%; max-height:100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">New Context</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>Function Name</label>
+                                    <input class="form-control" id="category_name" placeholder="Name of your third-party function.">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <input class="form-control" id="category_desc" placeholder="Explain your third-party function.">
+                                </div>
+                                <div class="form-group">
+                                    <label>Python file</label>
+                                    <input type="file" id="file">
+                                </div>
+                                <div class="form-group">
+                                    <label>Example Input</label>
+                                    <textarea class="form-control" id="corpus" rows="3" placeholder="Sample input for Context Classifier"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Parameter Extraction</label>
+                                    
+                                    <div class="checkbox">
+                                        <label>
+                                    		<input type="checkbox" class="param" id="what">What        
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="param" id="who">Who
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="param" id="where" checked="true">Where
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="param" id="when" checked="true">When
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="param" id="details" checked="true">Details
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <button type="reset" class="btn btn-default hidden" id="reset1">Reset Button</button>
+                            </form>
+                        </div>
+                        <div class="col-lg-6">
+                            <form role="form">
+                                <div class="form-group hidden" id="what-form">
+                                    <label>What (Parameter Extraction)</label>
+                                    <select class="form-control" id="what-select">
+                                        <option>Based on Word Similarity (Word2vec)</option>
+                                        <option>Elasticsearch</option>
+                                    </select>
+                                    <textarea class="form-control" rows="4" placeholder="Enter example features" id="what-features"></textarea>
+                                </div>
+                                <div class="form-group hidden" id="who-form">
+                                    <label>Who (Parameter Extraction)</label>
+                                    <select class="form-control" id="who-select">
+                                        <option>Based on Word Similarity (Word2vec)</option>
+                                        <option>Elasticsearch</option>
+                                    </select>
+                                    <textarea class="form-control" rows="4" placeholder="Enter example features" id="who-features"></textarea>
+                                </div>
+                                <div class="form-group" id="where-form">
+                                    <label>Where (Parameter Extraction)</label>
+                                    <select class="form-control" id="where-select">
+                                        <option>Based on Word Similarity (Word2vec)</option>
+                                        <option>Elasticsearch</option>
+                                    </select>
+                                    <textarea class="form-control" rows="4" placeholder="Enter example features" id="where-features"></textarea>
+                                </div>
+                                <div class="form-group" id="when-form">
+                                    <label>When (Parameter Extraction)</label>
+                                    <select class="form-control" id="when-select">
+                                        <option>Based on Word Similarity (Word2vec)</option>
+                                        <option>Elasticsearch</option>
+                                    </select>
+                                    <textarea class="form-control" rows="4" placeholder="Enter example features" id="when-features"></textarea>
+                                </div>
+                                <div class="form-group" id="details-form">
+                                    <label>Details (Parameter Extraction)</label>
+                                    <select class="form-control" id="details-select">
+                                        <option>Based on Word Similarity (Word2vec)</option>
+                                        <option>Elasticsearch</option>
+                                    </select>
+                                    <textarea class="form-control" rows="4" placeholder="Enter example features" id="details-features"></textarea>
+                                </div>
+                                <button type="reset" class="btn btn-default hidden" id="reset2">Reset Button</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a class="btn btn-default" id="reset">Reset</a>
+                    <a id="python" class="btn btn-primary" data-loading-text="Loading...">Submit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<div id="aboutModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">About</h4>
+                </div>
+                <div class="modal-body">
+					<p>SW Maestro 7th Project</p>
+					<p><b>Frontend Programming</b> Yundo Han <small>(han@yun.do)</small></p>
+					<p><b>Backend Programming</b> Hyeonseok Oh</p>
+					<p><b>Programming and Documentation</b> Geonyeol Yu</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+</body>
+</html>
