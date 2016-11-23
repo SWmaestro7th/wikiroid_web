@@ -1,4 +1,5 @@
-var socket = io.connect('http://172.16.100.61:10101');
+//var socket = io.connect('http://soma.yun.do:10101');
+var socket = io.connect('http://server.artech.works:10000');
 socket.on('connect', function() {
     
 });
@@ -80,13 +81,13 @@ socket.on('extractor', function(msg) {
                                                 template += '<tr>\
                                                                 <td>' + index +'</td>\
                                                                 <td>' + value[0][0] +'</td>\
-                                                                <td>' + value[0][1] +'</td>\
+                                                                <td>' + (value[0][1] * 100).toFixed(2) +'%</td>\
                                                             </tr>'
                                                 for(i=1; i<value.length; i++){
                                                     template += '<tr>\
                                                                     <td>' + '' +'</td>\
                                                                     <td>' + value[i][0] +'</td>\
-                                                                    <td>' + value[i][1] +'</td>\
+                                                                    <td>' + (value[i][1] * 100).toFixed(2) +'%</td>\
                                                                 </tr>'
                                                 }
                                             }
@@ -101,6 +102,14 @@ socket.on('extractor', function(msg) {
                     
     $(".timeline").append(template);
     $(".description")[0].scrollTop = $(".description")[0].scrollHeight;    
+});
+
+socket.on('new_category', function(msg) {
+    alert(msg);
+});
+
+socket.on('error', function(msg) {
+    alert(msg);
 });
 
 socket.on('reply', function(msg) {

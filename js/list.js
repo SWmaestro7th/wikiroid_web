@@ -4,6 +4,10 @@ function contextView(name) {
 	socket.emit('query', {"name": name});
 }
 
+function contextDelete(name) {
+    socket.emit('remove', {"name": name});   
+}
+
 function viewCategory(category_data) {
     $('#view_category_name').val(category_data['name']);
     $('#view_category_desc').val(category_data['desc']);
@@ -20,6 +24,7 @@ function viewCategory(category_data) {
     $('#view_what').attr("checked", false); 
     $('#view_who').attr("checked", false); 
     $('#view_details').attr("checked", false); 
+    $('#delete-btn').attr("onclick", "return contextDelete('" + category_data['name'] + "')")
 
     for(var i in category_data['distMethod']){
 		$('#view-'+i+'-form').removeClass('hidden');
@@ -35,6 +40,19 @@ function viewCategory(category_data) {
 
 $(document).ready(function () {
 	socket.emit('ask_list');
+});
+
+socket.on('new_result', function(msg) {
+    alert("카테고리를 추가하였습니다.");
+    $('#myModal').modal('hide');   
+});
+
+socket.on('remove_result', function(msg) {
+    if(msg == 'Succeed') {
+        alert("삭제되었습니다.");
+    }
+    else alert("삭제하는 데 실패했습니다.");
+    $('#viewModal').modal('hide');   
 });
 
 socket.on('info', function(msg) {
